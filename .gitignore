@@ -397,12 +397,15 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# Bin and Obj
+# bin and obj folders for projects generated using the new (dotnet new) templates
 API/bin/*
 API/obj/*
 Client/bin/*
 Client/obj/*
+
+# appsettings.json
 API/appsettings.json
 Client/appsettings.json
 
-
+# vscode
+.vscode/settings.json

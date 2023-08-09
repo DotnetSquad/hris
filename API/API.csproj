@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Contracts\IBaseRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Contracts\IBaseRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

@@ -53,4 +53,11 @@ public class Employee : BaseEntity
 
     [Column("job_guid")]
     public Guid JobGuid { get; set; }
+
+    // Cardinalitas
+    public Account Account { get; set; }
+    public Department Department { get; set; }
+    public Job Job { get; set; }
+    public IEnumerable<Overtime>? Overtimes { get; set; }
+    public Role Role { get; set; }
 }

@@ -15,6 +15,6 @@ public class Department : BaseEntity
     public Guid JobGuid { get; set; }
 
     // cardinality
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
     public ICollection<Job> Jobs { get; set; }
 }

@@ -18,4 +18,7 @@ public class Overtime : BaseEntity
     public int Remaining { get; set; }
     [Column("employee_guid")]
     public Guid EmployeeGuid { get; set; }
+
+    // Cardinality
+    public Employee? Employee { get; set; }
 }

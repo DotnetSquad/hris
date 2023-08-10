@@ -9,7 +9,7 @@ public class Department : BaseEntity
     public string Name { get; set; }
 
     [Column("manager_guid")]
-    public Guid ManagerGuid { get; set; }
+    public Guid? ManagerGuid { get; set; }
 
     // cardinality
     public Employee? Employee { get; set; }

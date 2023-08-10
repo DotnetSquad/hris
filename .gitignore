@@ -406,6 +406,7 @@ Client/obj/*
 # appsettings.json
 API/appsettings.json
 Client/appsettings.json
+BlazorApp/appsettings.json
 
 # vscode
 .vscode/settings.json

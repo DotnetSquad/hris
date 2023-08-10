@@ -13,4 +13,8 @@ public class Department : BaseEntity
 
     [Column("job_guid")]
     public Guid JobGuid { get; set; }
+
+    // cardinality
+    public Employee Employee { get; set; }
+    public ICollection<Job> Jobs { get; set; }
 }

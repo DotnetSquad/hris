@@ -7,4 +7,7 @@ public class Profile : BaseEntity
 {
     [Column("photo", TypeName = "nvarchar(255)")] 
     public string Photo { get; set; }
+
+    // cardinality
+    public Employee? Employee { get; set; }
 }

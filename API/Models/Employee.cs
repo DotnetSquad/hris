@@ -58,6 +58,6 @@ public class Employee : BaseEntity
     public Account? Account { get; set; }
     public Department? Department { get; set; }
     public Job? Job { get; set; }
-    public IEnumerable<Overtime>? Overtimes { get; set; }
+    public ICollection<Overtime>? Overtimes { get; set; }
     public Profile? Profile { get; set; }
 }

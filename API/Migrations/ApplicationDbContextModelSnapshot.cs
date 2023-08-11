@@ -290,7 +290,7 @@ namespace API.Migrations
                     b.Property<string>("Remarks")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)")
-                        .HasColumnName("remaks");
+                        .HasColumnName("remarks");
 
                     b.Property<int>("RequestNumber")
                         .HasColumnType("int")

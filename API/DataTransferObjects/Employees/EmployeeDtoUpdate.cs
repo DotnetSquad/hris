@@ -6,25 +6,40 @@ namespace API.DataTransferObjects.Employees;
 public class EmployeeDtoUpdate
 {
     public Guid Guid { get; set; }
+
     public string Nip { get; set; }
+
     public string Nik { get; set; }
+
     public string Npwp { get; set; }
+
     public string FirstName { get; set; }
+
     public string? LastName { get; set; }
+
     public DateTime BirthDate { get; set; }
+
     public string PlaceOfBirth { get; set; }
+
     public MarriageStatusEnum MarriageStatus { get; set; }
+
     public GenderEnum Gender { get; set; }
+
     public DateTime JoinDate { get; set; }
+
     public string BankAccount { get; set; }
+
     public string Email { get; set; }
+
     public string PhoneNumber { get; set; }
+
     public string EmergencyNumber { get; set; }
+
     public Guid ProfileGuid { get; set; }
+
     public Guid JobGuid { get; set; }
 
-
-
+    // Implicit Operator
     public static implicit operator Employee(EmployeeDtoUpdate employeeDtoUpdate)
     {
         return new Employee
@@ -50,6 +65,7 @@ public class EmployeeDtoUpdate
         };
     }
 
+    // Explicit Operator
     public static explicit operator EmployeeDtoUpdate(Employee employee)
     {
         return new EmployeeDtoUpdate

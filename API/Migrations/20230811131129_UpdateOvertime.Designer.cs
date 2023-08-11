@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230811130225_UpdateOvertime")]
+    [Migration("20230811131129_UpdateOvertime")]
     partial class UpdateOvertime
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -292,7 +292,7 @@ namespace API.Migrations
                     b.Property<string>("Remarks")
                         .IsRequired()
                         .HasColumnType("nvarchar(255)")
-                        .HasColumnName("remaks");
+                        .HasColumnName("remarks");
 
                     b.Property<int>("RequestNumber")
                         .HasColumnType("int")

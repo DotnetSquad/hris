@@ -10,7 +10,7 @@ public class Overtime : BaseEntity
     public int RequestNumber { get; set; }
     [Column("submited_date")]
     public DateTime SubmitedDate { get; set; }
-    [Column("remaks", TypeName = "nvarchar(255)")]
+    [Column("remarks", TypeName = "nvarchar(255)")]
     public string Remarks { get; set; }
     [Column("status")]
     public StatusEnum Status { get; set; }

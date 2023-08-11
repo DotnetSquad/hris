@@ -1,9 +1,9 @@
 ﻿using API.Models;
 
-namespace API.DataTransferObjects.Jobs;
+namespace API.DataTransferObjects.Jobs
 
 public class JobDtoCreate
-{
+
     public string Position { get; set; }
 
     public int Salary { get; set; }

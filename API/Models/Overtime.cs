@@ -11,7 +11,7 @@ public class Overtime : BaseEntity
     [Column("submited_date")]
     public DateTime SubmitedDate { get; set; }
     [Column("remaks", TypeName = "nvarchar(255)")]
-    public string Remaks { get; set; }
+    public string Remarks { get; set; }
     [Column("status")]
     public StatusEnum Status { get; set; }
     [Column("remaining")]

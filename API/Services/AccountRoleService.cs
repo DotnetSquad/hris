@@ -1,62 +1,61 @@
 ﻿using API.Contracts;
 using API.DataTransferObjects.AccountRoles;
 
-namespace API.Servives
+namespace API.Servives;
+
+public class AccountRoleService
 {
-    public class AccountRoleService
+    private readonly IAccountRoleRepository _accountRoleRepository;
+    public AccountRoleService(IAccountRoleRepository accountRoleRepository)
     {
-        private readonly IAccountRoleRepository _accountRoleRepository;
-        public AccountRoleService(IAccountRoleRepository accountRoleRepository)
+        _accountRoleRepository = accountRoleRepository;
+    }
+
+    public IEnumerable<AccountRoleDtoGet> GetAccountRole()
+    {
+        var accountRoles = _accountRoleRepository.GetAll();
+        if (!accountRoles.Any()) return Enumerable.Empty<AccountRoleDtoGet>();
+        List<AccountRoleDtoGet> accountRoleDtos = new();
+
+        foreach (var accountRole in accountRoles)
         {
-            _accountRoleRepository = accountRoleRepository;
+            accountRoleDtos.Add((AccountRoleDtoGet)accountRole);
         }
 
-        public IEnumerable<AccountRoleDtoGet> GetAccountRole()
-        {
-            var accountRoles = _accountRoleRepository.GetAll();
-            if(!accountRoles.Any()) return Enumerable.Empty<AccountRoleDtoGet>();
-            List<AccountRoleDtoGet> accountRoleDtos = new();
+        return accountRoleDtos;
+    }
 
-            foreach (var accountRole in accountRoles)
-            {
-                accountRoleDtos.Add((AccountRoleDtoGet)accountRole);
-            }
+    public AccountRoleDtoGet? Get(Guid guid)
+    {
+        var accountRole = _accountRoleRepository.GetByGuid(guid);
+        if (accountRole is null) return null!;
 
-            return accountRoleDtos;
-        }
+        return (AccountRoleDtoGet)accountRole;
+    }
 
-        public AccountRoleDtoGet? Get(Guid guid)
-        {
-            var accountRole = _accountRoleRepository.GetByGuid(guid);
-            if (accountRole is null) return null!;
+    public AccountRoleDtoCreate? Create(AccountRoleDtoCreate accountRoleDtoCreate)
+    {
+        var accountRoleCreated = _accountRoleRepository.Create(accountRoleDtoCreate);
+        if (accountRoleCreated is null) return null!;
 
-            return (AccountRoleDtoGet)accountRole;
-        }
+        return (AccountRoleDtoCreate)accountRoleCreated;
+    }
 
-        public AccountRoleDtoCreate? Create(AccountRoleDtoCreate accountRoleDtoCreate)
-        {
-            var accountRoleCreated = _accountRoleRepository.Create(accountRoleDtoCreate);
-            if (accountRoleCreated is null) return null!;
+    public int Update(AccountRoleDtoUpdate accountRoleDtoUpdate)
+    {
+        var accountRole = _accountRoleRepository.GetByGuid(accountRoleDtoUpdate.Guid);
+        if (accountRole is null) return -1;
 
-            return (AccountRoleDtoCreate)accountRoleCreated;
-        }
+        var accountRoleUpdated = _accountRoleRepository.Update(accountRoleDtoUpdate);
+        return accountRoleUpdated ? 1 : 0;
+    }
 
-        public int Update(AccountRoleDtoUpdate accountRoleDtoUpdate)
-        {
-            var accountRole = _accountRoleRepository.GetByGuid(accountRoleDtoUpdate.Guid);
-            if (accountRole is null) return -1;
+    public int Delete(Guid guid)
+    {
+        var accountRole = _accountRoleRepository.GetByGuid(guid);
+        if (accountRole is null) return -1;
 
-            var accountRoleUpdated = _accountRoleRepository.Update(accountRoleDtoUpdate);
-            return accountRoleUpdated ? 1 : 0;
-        }
-
-        public int Delete(Guid guid)
-        {
-            var accountRole = _accountRoleRepository.GetByGuid(guid);
-            if (accountRole is null) return -1;
-
-            var accountRoleDeleted = _accountRoleRepository.Delete(accountRole);
-            return accountRoleDeleted ? 1 : 0;
-        }
+        var accountRoleDeleted = _accountRoleRepository.Delete(accountRole);
+        return accountRoleDeleted ? 1 : 0;
     }
 }

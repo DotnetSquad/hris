@@ -28,7 +28,7 @@ public class AccountService
     public AccountDtoGet? Get(Guid guid)
     {
         var account = _accountRepository.GetByGuid(guid);
-        if (account is null) return null;
+        if (account is null) return null!;
 
         return (AccountDtoGet)account;
     }
@@ -36,7 +36,7 @@ public class AccountService
     public AccountDtoCreate? Create(AccountDtoCreate accountDtoCreate)
     {
         var accountCreated = _accountRepository.Create(accountDtoCreate);
-        if (accountDtoCreate is null) return null;
+        if (accountDtoCreate is null) return null!;
 
         return (AccountDtoCreate)accountCreated;
     }

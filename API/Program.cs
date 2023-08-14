@@ -10,10 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add Repositories.
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 
 // Add Services.
 builder.Services.AddScoped<ProfileService>();
-
+builder.Services.AddScoped<OvertimeService>();
 
 // Add Application Db Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

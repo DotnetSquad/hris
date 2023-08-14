@@ -54,7 +54,7 @@ public class EmployeeService
         if (employee is null) return -1;
 
         var employeeUpdated = _employeeRepository.Update(employeeDtoUpdate);
-        return !employeeUpdated ? 0 : 1;
+        return employeeUpdated ? 1 : 0;
     }
 
     public int Delete(Guid guid)

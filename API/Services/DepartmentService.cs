@@ -1,4 +1,3 @@
-
 using API.Contracts;
 using API.DataTransferObjects.Departments;
 

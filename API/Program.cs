@@ -1,9 +1,19 @@
+using API.Contracts;
 using API.Data;
+using API.Repositories;
+using API.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add Repositories.
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+
+// Add Services.
+builder.Services.AddScoped<ProfileService>();
+
 
 // Add Application Db Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

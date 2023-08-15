@@ -7,11 +7,13 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Repositories.
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 
 // Add Services.
+builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<JobService>();
 builder.Services.AddScoped<OvertimeService>();

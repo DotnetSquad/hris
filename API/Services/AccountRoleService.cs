@@ -1,7 +1,7 @@
 ﻿using API.Contracts;
 using API.DataTransferObjects.AccountRoles;
 
-namespace API.Servives;
+namespace API.Services;
 
 public class AccountRoleService
 {

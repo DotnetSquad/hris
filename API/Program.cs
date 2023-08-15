@@ -13,6 +13,7 @@ builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 
 // Add Services.
 builder.Services.AddScoped<EmployeeService>();
@@ -21,6 +22,7 @@ builder.Services.AddScoped<JobService>();
 builder.Services.AddScoped<OvertimeService>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<AccountRoleService>();
 
 // Add Application Db Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

@@ -11,12 +11,14 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 // Add Services.
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<ProfileService>();
 builder.Services.AddScoped<JobService>();
 builder.Services.AddScoped<OvertimeService>();
+builder.Services.AddScoped<AccountService>();
 
 // Add Application Db Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

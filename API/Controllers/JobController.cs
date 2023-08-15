@@ -128,7 +128,7 @@ public class JobController : ControllerBase
         });
     }
 
-    [HttpDelete("{guid}")]
+    [HttpDelete]
     public IActionResult Delete(Guid guid)
     {
         var jobDeleted = _jobService.Delete(guid);

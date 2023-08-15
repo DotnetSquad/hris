@@ -125,7 +125,7 @@ public class RoleController : ControllerBase
         });
     }
 
-    [HttpDelete("{guid}")]
+    [HttpDelete]
     public IActionResult Delete(Guid guid)
     {
         var roleDeleted = _roleService.Delete(guid);

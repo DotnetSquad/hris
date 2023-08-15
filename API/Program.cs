@@ -2,18 +2,26 @@ using API.Contracts;
 using API.Data;
 using API.Repositories;
 using API.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Repositories.
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<IOvertimeRepository, OvertimeRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
 
 // Add Services.
+builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<ProfileService>();
+builder.Services.AddScoped<JobService>();
+builder.Services.AddScoped<OvertimeService>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<AccountRoleService>();
 
 // Add Application Db Context

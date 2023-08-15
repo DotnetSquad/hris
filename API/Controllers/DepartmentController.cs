@@ -17,33 +17,128 @@ public class DepartmentController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public IActionResult Get()
     {
         var departments = _departmentService.Get();
 
         if (!departments.Any())
+        {
             return NotFound(new ResponseHandler<DepartmentDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Department Not Found",
+                Message = "Departments Not Found",
+                Data = null
             });
-
+        }
         return Ok(new ResponseHandler<IEnumerable<DepartmentDtoGet>>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Department Found",
+            Message = "Departments Found",
             Data = departments
         });
     }
 
     [HttpGet("{guid}")]
-    public IActionResult GetByGuid(Guid guid)
+    public IActionResult Get(Guid guid)
     {
-        var departement = _departmentService.Get(guid);
+        var department = _departmentService.Get(guid);
 
-        if (departement is null)
+        if (department == null)
+        {
+            return NotFound(new ResponseHandler<DepartmentDtoGet>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Department Not Found",
+                Data = null
+            });
+        }
+        return Ok(new ResponseHandler<DepartmentDtoGet>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Department Found",
+            Data = department
+        });
+    }
+
+    [HttpPost]
+    public IActionResult Create(DepartmentDtoCreate departmentDtoCreate)
+    {
+        var department = _departmentService.Create(departmentDtoCreate);
+
+        if (department == null)
+        {
+            return BadRequest(new ResponseHandler<DepartmentDtoCreate>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Department Not Created",
+                Data = null
+            });
+        }
+        return Ok(new ResponseHandler<DepartmentDtoCreate>
+        {
+            Code = StatusCodes.Status201Created,
+            Status = HttpStatusCode.Created.ToString(),
+            Message = "Department Created",
+            Data = department
+        });
+    }
+
+    [HttpPut]
+    public IActionResult Update(DepartmentDtoUpdate departmentDtoUpdate)
+    {
+        var account = _departmentService.Update(departmentDtoUpdate);
+
+        if (account == 0)
+        {
+            return BadRequest(new ResponseHandler<DepartmentDtoUpdate>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Department Not Updated",
+                Data = null
+            });
+        }
+        if (account == -1)
+        {
+            return NotFound(new ResponseHandler<DepartmentDtoUpdate>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Department Not Found",
+                Data = null
+            });
+        }
+
+        return Ok(new ResponseHandler<DepartmentDtoUpdate>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Department Updated",
+            Data = departmentDtoUpdate
+        });
+    }
+
+    [HttpDelete("{guid}")]
+    public IActionResult Delete(Guid guid)
+    {
+        var department = _departmentService.Delete(guid);
+
+        if (department == 0)
+        {
+            return BadRequest(new ResponseHandler<DepartmentDtoGet>
+            {
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Department Not Deleted",
+                Data = null
+            });
+        }
+        if (department == -1)
         {
             return NotFound(new ResponseHandler<DepartmentDtoGet>
             {
@@ -58,89 +153,8 @@ public class DepartmentController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Department Found",
-            Data = departement
-        });
-    }
-
-    [HttpPost]
-    public IActionResult Create(DepartmentDtoCreate departmentDtoCreate)
-    {
-        var departmentCreated = _departmentService.Create(departmentDtoCreate);
-        if (departmentCreated == null)
-            return BadRequest(new ResponseHandler<DepartmentDtoCreate>
-            {
-                Code = StatusCodes.Status400BadRequest,
-                Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Department not created"
-            });
-
-        return Ok(new ResponseHandler<DepartmentDtoCreate>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Department created",
-            Data = departmentCreated
-        });
-    }
-
-    [HttpPut]
-    public IActionResult Update(DepartmentDtoUpdate departmentDtoUpdate)
-    {
-        var departmentUpdated = _departmentService.Update(departmentDtoUpdate);
-        if (departmentUpdated == -1)
-            return NotFound(new ResponseHandler<DepartmentDtoUpdate>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Id not found",
-                Data = null
-            });
-
-        if (departmentUpdated == 0)
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<DepartmentDtoUpdate>
-            {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database",
-                Data = null
-            });
-
-        return Ok(new ResponseHandler<DepartmentDtoUpdate>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Department updated",
-            Data = departmentDtoUpdate
-        });
-    }
-
-    [HttpDelete("{guid}")]
-    public IActionResult Delete(Guid guid)
-    {
-        var departmentDeleted = _departmentService.Delete(guid);
-
-        if (departmentDeleted == -1)
-            return NotFound(new ResponseHandler<DepartmentDtoGet>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Id not found"
-            });
-
-        if (departmentDeleted == 0)
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<DepartmentDtoGet>
-            {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database"
-            });
-
-        return Ok(new ResponseHandler<DepartmentDtoGet>
-        {
-            Code = StatusCodes.Status200OK,
-            Status = HttpStatusCode.OK.ToString(),
-            Message = "Department deleted"
+            Message = "Department Deleted",
+            Data = null
         });
     }
 }

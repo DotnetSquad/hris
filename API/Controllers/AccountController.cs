@@ -29,7 +29,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No accounts found",
+                Message = "Accounts Not Found",
                 Data = null
             });
         }  
@@ -37,7 +37,7 @@ public class AccountController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "accounts found",
+            Message = "Accounts Found",
             Data = accounts
         });
     }
@@ -45,15 +45,15 @@ public class AccountController : ControllerBase
     [HttpGet("{guid}")]
     public IActionResult Get(Guid guid)
     {
-        var accounts = _accountService.Get(guid);
+        var account = _accountService.Get(guid);
 
-        if (accounts == null)
+        if (account == null)
         {
             return NotFound(new ResponseHandler<AccountDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No account found",
+                Message = "Account Not Found",
                 Data = null
             });
         }
@@ -61,8 +61,8 @@ public class AccountController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "account found",
-            Data = accounts
+            Message = "Account Found",
+            Data = account
         });
     }
 
@@ -77,7 +77,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Account not created",
+                Message = "Account Not Created",
                 Data = null
             });
         }
@@ -85,7 +85,7 @@ public class AccountController : ControllerBase
         {
             Code = StatusCodes.Status201Created,
             Status = HttpStatusCode.Created.ToString(),
-            Message = "Account created",
+            Message = "Account Created",
             Data = account
         });
     }
@@ -101,7 +101,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Account not updated",
+                Message = "Account Not Updated",
                 Data = null
             });
         }
@@ -111,7 +111,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Account not found",
+                Message = "Account Not Found",
                 Data = null
             });
         }
@@ -120,7 +120,7 @@ public class AccountController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Account updated",
+            Message = "Account Updated",
             Data = accountDtoUpdate
         });
     }
@@ -136,7 +136,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Account not deleted",
+                Message = "Account Not Deleted",
                 Data = null
             });
         }
@@ -146,7 +146,7 @@ public class AccountController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Account not found",
+                Message = "Account Not Found",
                 Data = null
             });
         }
@@ -155,7 +155,7 @@ public class AccountController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Account deleted",
+            Message = "Account Deleted",
             Data = null
         });
     }

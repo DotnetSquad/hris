@@ -15,7 +15,7 @@ public class EmployeeService
 
     public IEnumerable<EmployeeDtoGet> Get()
     {
-        var employees = _employeeRepository.GetAll().ToList();
+        var employees = _employeeRepository.GetAll();
         if (!employees.Any()) return Enumerable.Empty<EmployeeDtoGet>();
         List<EmployeeDtoGet> employeeDtoGets = new();
 

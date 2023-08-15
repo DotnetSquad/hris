@@ -18,29 +18,31 @@ public class OvertimeController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public IActionResult Get()
     {
-        var entities = _overtimeService.Get();
+        var overtimes = _overtimeService.Get();
 
-        if (!entities.Any())
+        if (!overtimes.Any())
+        {
             return NotFound(new ResponseHandler<OvertimeDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Overtime Not Found",
+                Message = "Overtimes Not Found",
+                Data = null
             });
-
+        }
         return Ok(new ResponseHandler<IEnumerable<OvertimeDtoGet>>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Overtime Found",
-            Data = entities
+            Message = "Overtimes Found",
+            Data = overtimes
         });
     }
 
     [HttpGet("{guid}")]
-    public IActionResult GetByGuid(Guid guid)
+    public IActionResult Get(Guid guid)
     {
         var overtime = _overtimeService.Get(guid);
 
@@ -50,7 +52,7 @@ public class OvertimeController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Profile Not Found",
+                Message = "Overtime Not Found",
                 Data = null
             });
         }
@@ -59,7 +61,7 @@ public class OvertimeController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Profile Found",
+            Message = "Overtime Found",
             Data = overtime
         });
     }
@@ -67,82 +69,97 @@ public class OvertimeController : ControllerBase
     [HttpPost]
     public IActionResult Create(OvertimeDtoCreate overtimeDtoCreate)
     {
-        var overtimeCreated = _overtimeService.Create(overtimeDtoCreate);
-        if (overtimeCreated == null)
-            return BadRequest(new ResponseHandler<OvertimeDtoGet>
+        var overtime = _overtimeService.Create(overtimeDtoCreate);
+
+        if (overtime is null)
+        {
+            return BadRequest(new ResponseHandler<OvertimeDtoCreate>
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Profile not created"
+                Message = "Overtime Not Created",
+                Data = null
             });
+        }
 
         return Ok(new ResponseHandler<OvertimeDtoCreate>
         {
-            Code = StatusCodes.Status200OK,
+            Code = StatusCodes.Status201Created,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Profile created",
-            Data = overtimeCreated
+            Message = "Overtime Created",
+            Data = overtime
         });
     }
 
     [HttpPut]
     public IActionResult Update(OvertimeDtoUpdate overtimeDtoUpdate)
     {
-        var overtimeUpdated = _overtimeService.Update(overtimeDtoUpdate);
-        if (overtimeUpdated == -1)
+        var overtime = _overtimeService.Update(overtimeDtoUpdate);
+
+        if (overtime == -1)
+        {
             return NotFound(new ResponseHandler<OvertimeDtoUpdate>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Id not found",
+                Message = "Overtime Not Found",
                 Data = null
             });
+        }
 
-        if (overtimeUpdated == 0)
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<OvertimeDtoGet>
+        if (overtime == 0)
+        {
+            return BadRequest(new ResponseHandler<OvertimeDtoUpdate>
             {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database",
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Overtime Not Updated",
                 Data = null
             });
+        }
 
         return Ok(new ResponseHandler<OvertimeDtoUpdate>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Overtime updated",
+            Message = "Overtime Updated",
             Data = overtimeDtoUpdate
         });
     }
 
-    [HttpDelete]
+    [HttpDelete("{guid}")]
     public IActionResult Delete(Guid guid)
     {
-        var overtimeDeleted = _overtimeService.Delete(guid);
+        var overtime = _overtimeService.Delete(guid);
 
-        if (overtimeDeleted == -1)
+        if (overtime == -1)
+        {
             return NotFound(new ResponseHandler<OvertimeDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Id not found"
+                Message = "Overtime Not Found",
+                Data = null
             });
+        }
 
-        if (overtimeDeleted == 0)
+        if (overtime == 0)
+        {
             return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<OvertimeDtoGet>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database"
+                Message = "Overtime Not Deleted",
+                Data = null
             });
+        }
 
         return Ok(new ResponseHandler<OvertimeDtoGet>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Profile deleted"
+            Message = "Overtime Deleted",
+            Data = null
         });
     }
-
 }

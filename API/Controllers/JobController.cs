@@ -11,17 +11,17 @@ namespace API.Controllers;
 
 public class JobController : ControllerBase
 {
-    private readonly JobService _jobService;
+    private readonly JobService _JobService;
 
-    public JobController(JobService jobService)
+    public JobController(JobService JobService)
     {
-        _jobService = jobService;
+        _JobService = JobService;
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        var jobs = _jobService.Get();
+        var jobs = _JobService.Get();
 
         if (!jobs.Any())
         {
@@ -29,16 +29,15 @@ public class JobController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No jobs found",
+                Message = "Jobs Not Found",
                 Data = null
             });
         }
-
         return Ok(new ResponseHandler<IEnumerable<JobDtoGet>>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Job found",
+            Message = "Jobs Found",
             Data = jobs
         });
     }
@@ -46,14 +45,15 @@ public class JobController : ControllerBase
     [HttpGet("{guid}")]
     public IActionResult Get(Guid guid)
     {
-        var job = _jobService.Get(guid);
+        var job = _JobService.Get(guid);
+
         if (job is null)
         {
             return NotFound(new ResponseHandler<JobDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No jobs found",
+                Message = "Job Not Found",
                 Data = null
             });
         }
@@ -62,7 +62,7 @@ public class JobController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Job found",
+            Message = "Job Found",
             Data = job
         });
     }
@@ -70,51 +70,51 @@ public class JobController : ControllerBase
     [HttpPost]
     public IActionResult Create(JobDtoCreate jobDtoCreate)
     {
-        var jobCreated = _jobService.Create(jobDtoCreate);
+        var job = _JobService.Create(jobDtoCreate);
 
-        if (jobCreated is null)
+        if (job is null)
         {
-            return NotFound(new ResponseHandler<JobDtoCreate>
+            return BadRequest(new ResponseHandler<JobDtoCreate>
             {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No job found",
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Job Not Created",
                 Data = null
             });
         }
 
         return Ok(new ResponseHandler<JobDtoCreate>
         {
-            Code = StatusCodes.Status200OK,
+            Code = StatusCodes.Status201Created,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Job found",
-            Data = jobCreated
+            Message = "Job Created",
+            Data = job
         });
     }
 
     [HttpPut]
     public IActionResult Update(JobDtoUpdate jobDtoUpdate)
     {
-        var jobUpdated = _jobService.Update(jobDtoUpdate);
+        var job = _JobService.Update(jobDtoUpdate);
 
-        if (jobUpdated == -1)
+        if (job == -1)
         {
             return NotFound(new ResponseHandler<JobDtoUpdate>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No job found",
+                Message = "Job Not Found",
                 Data = null
             });
         }
 
-        if (jobUpdated == 0)
+        if (job == 0)
         {
             return BadRequest(new ResponseHandler<JobDtoUpdate>
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Job not updated",
+                Message = "Job Not Updated",
                 Data = null
             });
         }
@@ -123,7 +123,7 @@ public class JobController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Job updated",
+            Message = "Job Updated",
             Data = jobDtoUpdate
         });
     }
@@ -131,26 +131,26 @@ public class JobController : ControllerBase
     [HttpDelete("{guid}")]
     public IActionResult Delete(Guid guid)
     {
-        var jobDeleted = _jobService.Delete(guid);
+        var job = _JobService.Delete(guid);
 
-        if (jobDeleted == -1)
+        if (job == -1)
         {
             return NotFound(new ResponseHandler<JobDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Job not found",
+                Message = "Job Not Found",
                 Data = null
             });
         }
 
-        if (jobDeleted == 0)
+        if (job == 0)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<JobDtoGet>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Job not deleted",
+                Message = "Job Not Deleted",
                 Data = null
             });
         }
@@ -159,7 +159,7 @@ public class JobController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Job deleted",
+            Message = "Job Deleted",
             Data = null
         });
     }

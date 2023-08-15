@@ -28,7 +28,7 @@ public class RoleController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No roles found",
+                Message = "Roles Not Found",
                 Data = null
             });
         }
@@ -37,7 +37,7 @@ public class RoleController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Role found",
+            Message = "Roles Found",
             Data = roles
         });
     }
@@ -52,7 +52,7 @@ public class RoleController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No roles found",
+                Message = "Role Not Found",
                 Data = null
             });
         }
@@ -61,7 +61,7 @@ public class RoleController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Role found",
+            Message = "Role Found",
             Data = role
         });
     }
@@ -69,14 +69,14 @@ public class RoleController : ControllerBase
     [HttpPost]
     public IActionResult Create(RoleDtoCreate roleDtoCreate)
     {
-        var roleCreated = _roleService.Create(roleDtoCreate);
-        if (roleCreated is null)
+        var role = _roleService.Create(roleDtoCreate);
+        if (role is null)
         {
             return NotFound(new ResponseHandler<RoleDtoCreate>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No role found",
+                Message = "Role Not Found",
                 Data = null
             });
         }
@@ -85,33 +85,33 @@ public class RoleController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Role found",
-            Data = roleCreated
+            Message = "Role Found",
+            Data = role
         });
     }
 
     [HttpPut]
     public IActionResult Update(RoleDtoUpdate roleDtoUpdate)
     {
-        var roleUpdated = _roleService.Update(roleDtoUpdate);
-        if (roleUpdated == -1)
+        var role = _roleService.Update(roleDtoUpdate);
+        if (role == -1)
         {
             return NotFound(new ResponseHandler<RoleDtoUpdate>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No role found",
+                Message = "Role Not Found",
                 Data = null
             });
         }
 
-        if (roleUpdated == 0)
+        if (role == 0)
         {
             return BadRequest(new ResponseHandler<RoleDtoUpdate>
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Role not updated",
+                Message = "Role Not Updated",
                 Data = null
             });
         }
@@ -120,7 +120,7 @@ public class RoleController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Role updated",
+            Message = "Role Updated",
             Data = roleDtoUpdate
         });
     }
@@ -128,26 +128,26 @@ public class RoleController : ControllerBase
     [HttpDelete("{guid}")]
     public IActionResult Delete(Guid guid)
     {
-        var roleDeleted = _roleService.Delete(guid);
+        var role = _roleService.Delete(guid);
 
-        if (roleDeleted == -1)
+        if (role == -1)
         {
             return NotFound(new ResponseHandler<RoleDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Role not found",
+                Message = "Role Not Found",
                 Data = null
             });
         }
 
-        if (roleDeleted == 0)
+        if (role == 0)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<RoleDtoGet>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Role not deleted",
+                Message = "Role Not Deleted",
                 Data = null
             });
         }
@@ -156,7 +156,7 @@ public class RoleController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Role deleted",
+            Message = "Role Deleted",
             Data = null
         });
     }

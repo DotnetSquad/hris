@@ -2,6 +2,7 @@ using API.Contracts;
 using API.Data;
 using API.Repositories;
 using API.Services;
+using API.Utilities.Handlers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,14 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<DepartmentService>();
+
+// Add SmtpClient
+builder.Services.AddTransient<IEmailHandler, EmailHandler>(_ => new EmailHandler(
+    builder.Configuration["EmailService:SmtpServer"],
+    int.Parse(builder.Configuration["EmailService:SmtpPort"]),
+    builder.Configuration["EmailService:FromEmailAddress"],
+    builder.Configuration["EmailService:FromEmailPassword"]
+));
 
 // Add Application Db Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

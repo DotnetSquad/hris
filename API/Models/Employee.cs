@@ -49,10 +49,10 @@ public class Employee : BaseEntity
     public string EmergencyNumber { get; set; }
 
     [Column("profile_guid")]
-    public Guid ProfileGuid { get; set; }
+    public Guid? ProfileGuid { get; set; }
 
     [Column("job_guid")]
-    public Guid JobGuid { get; set; }
+    public Guid? JobGuid { get; set; }
 
     // Cardinalitas
     public Account? Account { get; set; }

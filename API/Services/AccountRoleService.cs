@@ -11,9 +11,9 @@ public class AccountRoleService
         _accountRoleRepository = accountRoleRepository;
     }
 
-    public IEnumerable<AccountRoleDtoGet> GetAccountRole()
+    public IEnumerable<AccountRoleDtoGet> Get()
     {
-        var accountRoles = _accountRoleRepository.GetAll();
+        var accountRoles = _accountRoleRepository.GetAll().ToList();
         if (!accountRoles.Any()) return Enumerable.Empty<AccountRoleDtoGet>();
         List<AccountRoleDtoGet> accountRoleDtos = new();
 

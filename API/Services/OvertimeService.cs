@@ -14,7 +14,7 @@ public class OvertimeService
 
     public IEnumerable<OvertimeDtoGet> Get()
     {
-        var overtimes = _overtimeRepository.GetAll();
+        var overtimes = _overtimeRepository.GetAll().ToList();
         if (!overtimes.Any()) return Enumerable.Empty<OvertimeDtoGet>();
         List<OvertimeDtoGet> overtimeDtoGets = new();
 

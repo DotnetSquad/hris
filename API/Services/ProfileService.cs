@@ -14,7 +14,7 @@ public class ProfileService
 
     public IEnumerable<ProfileDtoGet> Get()
     {
-        var profiles = _profileRepository.GetAll();
+        var profiles = _profileRepository.GetAll().ToList();
         if (!profiles.Any()) return Enumerable.Empty<ProfileDtoGet>();
         List<ProfileDtoGet> profileDtoGets = new();
 

@@ -28,7 +28,7 @@ public class EmployeeController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "No Employees found",
+                Message = "Employees Not Found",
                 Data = null
             });
         }
@@ -36,7 +36,7 @@ public class EmployeeController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Employees found",
+            Message = "Employees Found",
             Data = employees
         });
     }
@@ -52,7 +52,7 @@ public class EmployeeController : ControllerBase
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Employee not found",
+                Message = "Employee Not Found",
                 Data = null
             });
         }
@@ -61,7 +61,7 @@ public class EmployeeController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Employee found",
+            Message = "Employee Found",
             Data = employee
         });
     }
@@ -69,15 +69,15 @@ public class EmployeeController : ControllerBase
     [HttpPost]
     public IActionResult Create(EmployeeDtoCreate employeeDtoCreate)
     {
-        var employeeCreated = _employeeService.Create(employeeDtoCreate);
+        var employee = _employeeService.Create(employeeDtoCreate);
 
-        if (employeeCreated is null)
+        if (employee is null)
         {
             return BadRequest(new ResponseHandler<EmployeeDtoCreate>
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Employee not created",
+                Message = "Employee Not Created",
                 Data = null
             });
         }
@@ -86,34 +86,34 @@ public class EmployeeController : ControllerBase
         {
             Code = StatusCodes.Status201Created,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Employee created",
-            Data = employeeCreated
+            Message = "Employee Created",
+            Data = employee
         });
     }
 
     [HttpPut]
     public IActionResult Update(EmployeeDtoUpdate employeeDtoUpdate)
     {
-        var employeeUpdated = _employeeService.Update(employeeDtoUpdate);
+        var employee = _employeeService.Update(employeeDtoUpdate);
 
-        if (employeeUpdated == -1)
+        if (employee == -1)
         {
             return NotFound(new ResponseHandler<EmployeeDtoUpdate>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Employee not found",
+                Message = "Employee Not Found",
                 Data = null
             });
         }
 
-        if (employeeUpdated == 0)
+        if (employee == 0)
         {
             return BadRequest(new ResponseHandler<EmployeeDtoUpdate>
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Employee not updated",
+                Message = "Employee Not Updated",
                 Data = null
             });
         }
@@ -122,7 +122,7 @@ public class EmployeeController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Employee updated",
+            Message = "Employee Updated",
             Data = employeeDtoUpdate
         });
     }
@@ -130,26 +130,26 @@ public class EmployeeController : ControllerBase
     [HttpDelete("{guid}")]
     public IActionResult Delete(Guid guid)
     {
-        var employeeDeleted = _employeeService.Delete(guid);
+        var employee = _employeeService.Delete(guid);
 
-        if (employeeDeleted == -1)
+        if (employee == -1)
         {
             return NotFound(new ResponseHandler<EmployeeDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Employee not found",
+                Message = "Employee Not Found",
                 Data = null
             });
         }
 
-        if (employeeDeleted == 0)
+        if (employee == 0)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<EmployeeDtoGet>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Employee not deleted",
+                Message = "Employee Not Deleted",
                 Data = null
             });
         }
@@ -158,7 +158,7 @@ public class EmployeeController : ControllerBase
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Employee deleted",
+            Message = "Employee Deleted",
             Data = null
         });
     }

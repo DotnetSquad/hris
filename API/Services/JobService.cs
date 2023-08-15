@@ -14,7 +14,7 @@ public class JobService
 
     public IEnumerable<JobDtoGet> Get()
     {
-        var jobs = _jobRepository.GetAll();
+        var jobs = _jobRepository.GetAll().ToList();
         if (!jobs.Any()) return Enumerable.Empty<JobDtoGet>();
         List<JobDtoGet> jobDtoGets = new();
 

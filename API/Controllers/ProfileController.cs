@@ -17,33 +17,35 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public IActionResult Get()
     {
-        var entities = _profileService.Get();
+        var profiles = _profileService.Get();
 
-        if (!entities.Any())
+        if (!profiles.Any())
+        {
             return NotFound(new ResponseHandler<ProfileDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Profile Not Found",
+                Message = "Profiles Not Found",
+                Data = null
             });
-
+        }
         return Ok(new ResponseHandler<IEnumerable<ProfileDtoGet>>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Profile Found",
-            Data = entities
+            Message = "Profiles Found",
+            Data = profiles
         });
     }
 
     [HttpGet("{guid}")]
-    public IActionResult GetByGuid (Guid guid)
+    public IActionResult Get(Guid guid)
     {
         var profile = _profileService.Get(guid);
-        
-        if(profile is null)
+
+        if (profile is null)
         {
             return NotFound(new ResponseHandler<ProfileDtoGet>
             {
@@ -66,81 +68,97 @@ public class ProfileController : ControllerBase
     [HttpPost]
     public IActionResult Create(ProfileDtoCreate profileDtoCreate)
     {
-        var profileCreated = _profileService.Create(profileDtoCreate);
-        if (profileCreated == null)
+        var profile = _profileService.Create(profileDtoCreate);
+
+        if (profile is null)
+        {
             return BadRequest(new ResponseHandler<ProfileDtoCreate>
             {
                 Code = StatusCodes.Status400BadRequest,
                 Status = HttpStatusCode.BadRequest.ToString(),
-                Message = "Profile not created"
+                Message = "Profile Not Created",
+                Data = null
             });
+        }
 
         return Ok(new ResponseHandler<ProfileDtoCreate>
         {
-            Code = StatusCodes.Status200OK,
+            Code = StatusCodes.Status201Created,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Profile created",
-            Data = profileCreated
+            Message = "Profile Created",
+            Data = profile
         });
     }
 
     [HttpPut]
     public IActionResult Update(ProfileDtoUpdate profileDtoUpdate)
     {
-        var profileUpdated = _profileService.Update(profileDtoUpdate);
-        if (profileUpdated == -1)
+        var profile = _profileService.Update(profileDtoUpdate);
+
+        if (profile == -1)
+        {
             return NotFound(new ResponseHandler<ProfileDtoUpdate>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Id not found",
+                Message = "Profile Not Found",
                 Data = null
             });
+        }
 
-        if (profileUpdated == 0)
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<ProfileDtoUpdate>
+        if (profile == 0)
+        {
+            return BadRequest(new ResponseHandler<ProfileDtoUpdate>
             {
-                Code = StatusCodes.Status500InternalServerError,
-                Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database",
+                Code = StatusCodes.Status400BadRequest,
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Message = "Profile Not Updated",
                 Data = null
             });
+        }
 
         return Ok(new ResponseHandler<ProfileDtoUpdate>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Profile updated",
+            Message = "Profile Updated",
             Data = profileDtoUpdate
         });
     }
 
-    [HttpDelete]
+    [HttpDelete("{guid}")]
     public IActionResult Delete(Guid guid)
     {
-        var profileDeleted = _profileService.Delete(guid);
+        var profile = _profileService.Delete(guid);
 
-        if (profileDeleted == -1)
+        if (profile == -1)
+        {
             return NotFound(new ResponseHandler<ProfileDtoGet>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Id not found"
+                Message = "Profile Not Found",
+                Data = null
             });
+        }
 
-        if (profileDeleted == 0)
+        if (profile == 0)
+        {
             return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<ProfileDtoGet>
             {
                 Code = StatusCodes.Status500InternalServerError,
                 Status = HttpStatusCode.InternalServerError.ToString(),
-                Message = "Error retrieving data from the database"
+                Message = "Profile Not Deleted",
+                Data = null
             });
+        }
 
         return Ok(new ResponseHandler<ProfileDtoGet>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
-            Message = "Profile deleted"
+            Message = "Profile Deleted",
+            Data = null
         });
     }
 }

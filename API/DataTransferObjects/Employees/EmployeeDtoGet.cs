@@ -35,9 +35,9 @@ public class EmployeeDtoGet
 
     public string EmergencyNumber { get; set; }
 
-    public Guid ProfileGuid { get; set; }
+    public Guid? ProfileGuid { get; set; }
 
-    public Guid JobGuid { get; set; }
+    public Guid? JobGuid { get; set; }
 
     // Implicit Operator
     public static implicit operator Employee(EmployeeDtoGet employeeDtoGet)

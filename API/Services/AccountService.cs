@@ -13,7 +13,7 @@ public class AccountService
 
     public IEnumerable<AccountDtoGet> Get()
     {
-        var accounts = _accountRepository.GetAll();
+        var accounts = _accountRepository.GetAll().ToList();
         if (!accounts.Any()) return Enumerable.Empty<AccountDtoGet>();
         List<AccountDtoGet> accountDtoGets = new();
 

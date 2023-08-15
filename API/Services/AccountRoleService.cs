@@ -13,7 +13,7 @@ public class AccountRoleService
 
     public IEnumerable<AccountRoleDtoGet> Get()
     {
-        var accountRoles = _accountRoleRepository.GetAll();
+        var accountRoles = _accountRoleRepository.GetAll().ToList();
         if (!accountRoles.Any()) return Enumerable.Empty<AccountRoleDtoGet>();
         List<AccountRoleDtoGet> accountRoleDtos = new();
 

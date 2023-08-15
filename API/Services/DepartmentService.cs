@@ -14,7 +14,7 @@ public class DepartmentService
 
     public IEnumerable<DepartmentDtoGet> Get()
     {
-        var departments = _departmentRepository.GetAll();
+        var departments = _departmentRepository.GetAll().ToList();
         if (!departments.Any()) return Enumerable.Empty<DepartmentDtoGet>();
         List<DepartmentDtoGet> departmentDtoGets = new();
 

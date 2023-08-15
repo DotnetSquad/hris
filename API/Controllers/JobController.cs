@@ -11,17 +11,17 @@ namespace API.Controllers;
 
 public class JobController : ControllerBase
 {
-    private readonly JobService _JobService;
+    private readonly JobService _jobService;
 
     public JobController(JobService JobService)
     {
-        _JobService = JobService;
+        _jobService = JobService;
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        var jobs = _JobService.Get();
+        var jobs = _jobService.Get();
 
         if (!jobs.Any())
         {
@@ -45,7 +45,7 @@ public class JobController : ControllerBase
     [HttpGet("{guid}")]
     public IActionResult Get(Guid guid)
     {
-        var job = _JobService.Get(guid);
+        var job = _jobService.Get(guid);
 
         if (job is null)
         {
@@ -70,7 +70,7 @@ public class JobController : ControllerBase
     [HttpPost]
     public IActionResult Create(JobDtoCreate jobDtoCreate)
     {
-        var job = _JobService.Create(jobDtoCreate);
+        var job = _jobService.Create(jobDtoCreate);
 
         if (job is null)
         {
@@ -95,7 +95,7 @@ public class JobController : ControllerBase
     [HttpPut]
     public IActionResult Update(JobDtoUpdate jobDtoUpdate)
     {
-        var job = _JobService.Update(jobDtoUpdate);
+        var job = _jobService.Update(jobDtoUpdate);
 
         if (job == -1)
         {
@@ -131,7 +131,7 @@ public class JobController : ControllerBase
     [HttpDelete("{guid}")]
     public IActionResult Delete(Guid guid)
     {
-        var job = _JobService.Delete(guid);
+        var job = _jobService.Delete(guid);
 
         if (job == -1)
         {
